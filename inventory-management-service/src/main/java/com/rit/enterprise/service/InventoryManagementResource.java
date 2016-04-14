@@ -39,5 +39,11 @@ public class InventoryManagementResource {
         productDao.increaseStockQuantityForProductId(id, amount, transactionId);
         return Response.ok().build();
     }
+    
+    @GET
+    @Path("/product-price/{id}")
+    public double getStockPriceById(@PathParam("id") int id) {
+    	return productDao.getStockQuantityForProductId(id);
+    }
 
 }

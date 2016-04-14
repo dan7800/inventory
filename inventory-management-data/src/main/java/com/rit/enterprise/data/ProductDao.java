@@ -15,4 +15,6 @@ public interface ProductDao {
     @SqlUpdate("UPDATE inventory SET quantity = (quantity + :stockQuantity), transactionId = :transactionId WHERE productId = :id")
     public void increaseStockQuantityForProductId(int id,  int stockQuantity, int transactionId);
 
+    @SqlUpdate("SELECT price FROM inventory WHERE productId = :id")
+    public double getStockPriceForProductId(@Bind("id") int id);
 }
