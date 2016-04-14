@@ -1,0 +1,32 @@
+apply plugin: 'application'
+
+mainClassName = 'com.rit.enterprise.service.InventoryManagementService'
+
+allprojects {
+    group = 'com.rit.enterprise'
+    version = '1.0-SNAPSHOT'
+
+    apply plugin: 'java'
+
+    repositories {
+        mavenCentral()
+    }
+
+    project.ext {
+        dropwizardVersion = '0.8.2'
+        guiceDropwizardVersion = '0.8.4.0'
+    }
+
+    dependencies {
+        compile group: 'com.hubspot.dropwizard', name: 'dropwizard-guice', version: guiceDropwizardVersion
+        compile group: 'io.dropwizard', name: 'dropwizard-core', version: dropwizardVersion
+    }
+}
+
+dependencies {
+    compile project('inventory-management-service')
+}
+
+run {
+    args 'server', 'config.yaml'
+}

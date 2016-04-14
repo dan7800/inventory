@@ -1,0 +1,8 @@
+project.ext {
+    postgresJdbcVersion = '9.4.1208'
+}
+
+dependencies {
+    compile group: 'io.dropwizard', name: 'dropwizard-jdbi', version: dropwizardVersion
+    compile group: 'org.postgresql', name: 'postgresql', version: postgresJdbcVersion
+}

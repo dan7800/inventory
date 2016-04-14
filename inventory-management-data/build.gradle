@@ -1,0 +1,5 @@
+dependencies {
+    compile project(':inventory-management-config')
+
+    compile group: 'io.dropwizard', name: 'dropwizard-jdbi', version: dropwizardVersion
+}
