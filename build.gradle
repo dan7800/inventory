@@ -15,11 +15,15 @@ allprojects {
     project.ext {
         dropwizardVersion = '0.8.2'
         guiceDropwizardVersion = '0.8.4.0'
+        mokitoVersion = '1.10.19'
+        junitVersion = '4.12'
     }
 
     dependencies {
         compile group: 'com.hubspot.dropwizard', name: 'dropwizard-guice', version: guiceDropwizardVersion
         compile group: 'io.dropwizard', name: 'dropwizard-core', version: dropwizardVersion
+        compile group: 'org.mockito', name:'mockito-core', version: mokitoVersion
+        compile group: 'junit', name:'junit', version: junitVersion
     }
 }
 

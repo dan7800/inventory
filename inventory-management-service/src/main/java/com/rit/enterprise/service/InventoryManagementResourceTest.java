@@ -1,7 +1,7 @@
 package com.rit.enterprise.service;
 
 import com.rit.enterprise.service.InventorManagementResource;
-import com.rit.enterprise.db.InventoryDAO;
+import com.rit.enterprise.data.ProductDao;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.collect.ImmutableList;
 import io.dropwizard.testing.junit.ResourceTestRule;
@@ -53,12 +53,12 @@ public class InventoryManagementResourceTest {
      */
     @Test
     public void getStockQuantityById() throws Exception {
-        when(dao.getStockQuantityForProductId(1)).thenReturn(5);
+        when(dao.getStockQuantityForProductId("Test")).thenReturn(5);
 
-        final int response = resources.client().target("/inventory/product-stock/1")
+        final int response = resources.client().target("/inventory/product-stock/Test")
                 .request().get();
 
-        verify(dao).getStockQuantitityForProductId(1);
+        verify(dao).getStockQuantitityForProductId("Test");
         assertThat(response.getStatusInfo()).isEqualTo(Response.Status.OK);
     }
     
@@ -67,12 +67,12 @@ public class InventoryManagementResourceTest {
      */
     @Test
     public void decreaseStockQuantityForProductId() throws Exception {
-        when(dao.decreaseStockQuantityForProductId(1, 0, 2)).thenReturn(3);
+        when(dao.decreaseStockQuantityForProductId("Test", 0, 2)).thenReturn(true);
 
-        final int response = resources.client().target("/inventory/product-stock/decrease/1/2")
+        final int response = resources.client().target("/inventory/product-stock/decrease/Test/2")
                 .request().get();
 
-        verify(dao).decreaseStockQuantityForProductId(1, 0, 2);
+        verify(dao).decreaseStockQuantityForProductId("Test", 0, 2);
         assertThat(response.getStatusInfo()).isEqualTo(Response.Status.OK);
     }
     
@@ -81,12 +81,40 @@ public class InventoryManagementResourceTest {
      */
     @Test
     public void increaseStockQuantityForProductId() throws Exception {
-        when(dao.increaseStockQuantityForProductId(1, 0, 2)).thenReturn(7);
+        when(dao.increaseStockQuantityForProductId("Test", 0, 2)).thenReturn(true);
 
-        final int response = resources.client().target("/inventory/product-stock/increase/1/2")
+        final int response = resources.client().target("/inventory/product-stock/increase/Test/2")
                 .request().get();
 
-        verify(dao).increaseStockQuantityForProductId(1, 0, 2);
+        verify(dao).increaseStockQuantityForProductId("Test", 0, 2);
+        assertThat(response.getStatusInfo()).isEqualTo(Response.Status.OK);
+    }
+    
+    /**
+     * Tests the /inventory/product-price/{$id} endpoint
+     */
+    @Test
+    public void getBaseSalesPrice() throws Exception {
+        when(dao.getBaseSalesPrice("Test")).thenReturn(59.99);
+
+        final int response = resources.client().target("/inventory/product-price/Test")
+                .request().get();
+
+        verify(dao).getBaseSalesPrice("Test");
+        assertThat(response.getStatusInfo()).isEqualTo(Response.Status.OK);
+    }
+    
+    /**
+     * Tests the /inventory/product-cost/{$id} endpoint
+     */
+    @Test
+    public void getProductCost() throws Exception {
+        when(dao.getProductCost("Test")).thenReturn(20.00);
+
+        final int response = resources.client().target("/inventory/product-cost/Test")
+                .request().get();
+
+        verify(dao).getProductCost("Test");
         assertThat(response.getStatusInfo()).isEqualTo(Response.Status.OK);
     }
 

@@ -18,26 +18,35 @@ public class InventoryManagementResource {
 
     @GET
     @Path("/product-stock/{id}")
-    public int getStockQuantityById(@PathParam("id") int id) {
+    public int getStockQuantityById(@PathParam("id") String id) {
         return productDao.getStockQuantityForProductId(id);
     }
 
     @POST
     @Path("/product-stock/decrease/{id}/{amount}")
-    public Response decreaseStockQuantiyByAmount(@PathParam("id") int id,
+    public Response decreaseStockQuantiyByAmount(@PathParam("id") String id,
                                                  @PathParam("amount") int amount,
-                                                 @QueryParam("transactionId") int transactionId) {
+                                                 @QueryParam("transactionId") long transactionId) {
         productDao.decreaseStockQuantityForProductId(id, amount, transactionId);
         return Response.ok().build();
     }
 
     @POST
     @Path("/product-stock/increase/{id}/{amount}")
-    public Response increaseStockQuantiyByAmount(@PathParam("id") int id,
-                                                 @PathParam("amount") int amount,
-                                                 @QueryParam("transactionId") int transactionId) {
-        productDao.increaseStockQuantityForProductId(id, amount, transactionId);
+    public Response increaseStockQuantiyByAmount(@PathParam("id") String id,
+                                                 @PathParam("amount") int amount) {
+        productDao.increaseStockQuantityForProductId(id, amount);
         return Response.ok().build();
+    }
+    @GET
+    @Path("/product-price/{id}")
+    public double getBaseSalesPrice(@PathParam("id") String id) {
+        return productDao.getBaseSalesPrice(id);
+    }
+    @GET
+    @Path("/product-cost/{id}")
+    public double getProductCost(@PathParam("id") String id) {
+        return productDao.getProductCost(id);
     }
 
 }
