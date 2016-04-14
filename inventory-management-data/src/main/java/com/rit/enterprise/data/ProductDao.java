@@ -10,9 +10,9 @@ public interface ProductDao {
     public int getStockQuantityForProductId(@Bind("id") int id);
 
     @SqlUpdate("UPDATE inventory SET quantity = (quantity - :stockQuantity), transactionId = :transactionId WHERE productId = :id")
-    public void decreaseStockQuantityForProductId(int id, int transactionId, int stockQuantity);
+    public void decreaseStockQuantityForProductId(int id,  int stockQuantity, int transactionId);
 
     @SqlUpdate("UPDATE inventory SET quantity = (quantity + :stockQuantity), transactionId = :transactionId WHERE productId = :id")
-    public void increaseStockQuantityForProductId(int id, int transactionId, int stockQuantity);
+    public void increaseStockQuantityForProductId(int id,  int stockQuantity, int transactionId);
 
 }

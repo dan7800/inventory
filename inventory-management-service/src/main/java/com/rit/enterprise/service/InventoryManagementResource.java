@@ -32,7 +32,7 @@ public class InventoryManagementResource {
     }
 
     @POST
-    @Path("/product-stock/decrease/{id}/{amount}")
+    @Path("/product-stock/increase/{id}/{amount}")
     public Response increaseStockQuantiyByAmount(@PathParam("id") int id,
                                                  @PathParam("amount") int amount,
                                                  @QueryParam("transactionId") int transactionId) {
