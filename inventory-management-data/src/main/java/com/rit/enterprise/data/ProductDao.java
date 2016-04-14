@@ -30,4 +30,6 @@ public class ProductDao {
         return 20.00;
     }
 
+    @SqlUpdate("SELECT price FROM inventory WHERE productId = :id")
+    public double getStockPriceForProductId(@Bind("id") int id);
 }
