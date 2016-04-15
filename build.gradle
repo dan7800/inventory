@@ -17,13 +17,15 @@ allprojects {
         guiceDropwizardVersion = '0.8.4.0'
         mokitoVersion = '1.10.19'
         junitVersion = '4.12'
+        assertjVersion = '3.4.1'
     }
 
     dependencies {
         compile group: 'com.hubspot.dropwizard', name: 'dropwizard-guice', version: guiceDropwizardVersion
-        compile group: 'io.dropwizard', name: 'dropwizard-core', version: dropwizardVersion
+        compile group: 'io.dropwizard', name: 'dropwizard-testing', version: dropwizardVersion
         compile group: 'org.mockito', name:'mockito-core', version: mokitoVersion
         compile group: 'junit', name:'junit', version: junitVersion
+        compile group: 'org.assertj', name:'assertj-core', version: assertjVersion
     }
 }
 

@@ -20,8 +20,8 @@ public class ProductDao {
     }
 
     //@SqlUpdate("UPDATE inventory SET quantity = (quantity + :stockQuantity), transactionId = :transactionId WHERE productId = :id")
-    public void increaseStockQuantityForProductId(String product_id,  int stockQuantity){
-        return;
+    public boolean increaseStockQuantityForProductId(String product_id,  int stockQuantity){
+        return true;
     }
     public double getBaseSalesPrice(String product_id){
         return 59.99;
@@ -30,6 +30,4 @@ public class ProductDao {
         return 20.00;
     }
 
-    @SqlUpdate("SELECT price FROM inventory WHERE productId = :id")
-    public double getStockPriceForProductId(@Bind("id") int id);
 }
