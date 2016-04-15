@@ -29,5 +29,10 @@ public class ProductDao {
     public double getProductCost(String product_id){
         return 20.00;
     }
+    
+    //Stub of API call to accounting
+    public long reportProcurement(String desc, double amount){
+        return (long)1234567890;
+    }
 
 }

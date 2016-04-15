@@ -117,5 +117,11 @@ public class InventoryManagementResourceTest {
         verify(dao).getProductCost("Test");
         assertThat(response.getStatusInfo()).isEqualTo(Response.Status.OK);
     }
+    
+    @Test
+    public void reportProcurement() throws Exception {
+        when(dao.reportProcurement("Test",20.0)).thenReturn((long)1234567890);
+        verify(dao).reportProcurement("Test",20.0);
+    }
 
 }
