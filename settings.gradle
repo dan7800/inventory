@@ -2,3 +2,5 @@ rootProject.name = 'InventoryManagement'
 include 'inventory-management-config'
 include 'inventory-management-service'
 include 'inventory-management-data'
+include 'inventory-management-core'
+

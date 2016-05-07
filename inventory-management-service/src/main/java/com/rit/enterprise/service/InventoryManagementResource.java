@@ -1,52 +1,69 @@
 package com.rit.enterprise.service;
 
 import com.google.inject.Inject;
+import com.rit.enterprise.data.LoggingDao;
 import com.rit.enterprise.data.ProductDao;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.time.LocalDateTime;
 
 @Path("/inventory")
 public class InventoryManagementResource {
 
     private final ProductDao productDao;
+    private final LoggingDao loggingDao;
 
     @Inject
-    public InventoryManagementResource(ProductDao productDao) {
+    public InventoryManagementResource(ProductDao productDao, LoggingDao loggingDao) {
         this.productDao = productDao;
+        this.loggingDao = loggingDao;
     }
 
     @GET
     @Path("/product-stock/{id}")
-    public int getStockQuantityById(@PathParam("id") String id) {
+    public int getStockQuantityById(@PathParam("id") int id) {
         return productDao.getStockQuantityForProductId(id);
     }
 
     @POST
     @Path("/product-stock/decrease/{id}/{amount}")
-    public Response decreaseStockQuantiyByAmount(@PathParam("id") String id,
-                                                 @PathParam("amount") int amount,
-                                                 @QueryParam("transactionId") long transactionId) {
-        productDao.decreaseStockQuantityForProductId(id, amount, transactionId);
-        return Response.ok().build();
+    public Response decreaseStockQuantiyByAmount(@PathParam("id") int id,
+                                                 @PathParam("amount") int decreaseAmount,
+                                                 @QueryParam("transactionId") Integer transactionId) {
+        if ((productDao.getStockQuantityForProductId(id) - decreaseAmount) >= 0) {
+            productDao.decreaseStockQuantityForProductId(id, decreaseAmount);
+            loggingDao.insertLogging(transactionId, "Decrease", LocalDateTime.now(), id, decreaseAmount);
+            return Response.ok().build();
+        } else {
+            return Response.notModified("Not enough stock").build();
+        }
     }
 
     @POST
     @Path("/product-stock/increase/{id}/{amount}")
-    public Response increaseStockQuantiyByAmount(@PathParam("id") String id,
-                                                 @PathParam("amount") int amount) {
-        productDao.increaseStockQuantityForProductId(id, amount);
+    public Response increaseStockQuantiyByAmount(@PathParam("id") int id,
+                                    @PathParam("amount") int increaseAmount,
+                                    @QueryParam("transactionId") Integer transactionId) {
+        productDao.increaseStockQuantityForProductId(id, increaseAmount);
+        loggingDao.insertLogging(transactionId, "Increase", LocalDateTime.now(), id, increaseAmount);
         return Response.ok().build();
     }
+
     @GET
     @Path("/product-price/{id}")
-    public double getBaseSalesPrice(@PathParam("id") String id) {
-        return productDao.getBaseSalesPrice(id);
+    public Double getBaseSalesPriceForProductId(@PathParam("id") int id) {
+        Double basePrice = productDao.getBasePriceForProductId(id);
+        return basePrice != null ? basePrice : -1;
     }
+
     @GET
     @Path("/product-cost/{id}")
-    public double getProductCost(@PathParam("id") String id) {
-        return productDao.getProductCost(id);
+    public double getBaseCostForProductId(@PathParam("id") int id) {
+        Double baseCost = productDao.getBaseCostForProductId(id);
+        return baseCost != null ? baseCost : -1;
     }
+
+
 
 }

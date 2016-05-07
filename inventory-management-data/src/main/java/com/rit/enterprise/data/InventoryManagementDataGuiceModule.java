@@ -14,6 +14,11 @@ public class InventoryManagementDataGuiceModule extends AbstractModule {
 
     @Provides
     public ProductDao providesProductDao(DBI jdbi) {
-        return new ProductDao();
+        return jdbi.onDemand(ProductDao.class);
+    }
+
+    @Provides
+    public LoggingDao providesLoggingDao(DBI jdbi) {
+        return jdbi.onDemand(LoggingDao.class);
     }
 }

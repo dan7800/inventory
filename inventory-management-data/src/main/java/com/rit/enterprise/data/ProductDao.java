@@ -4,35 +4,21 @@ import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
 
-public class ProductDao {
+public interface ProductDao {
 
-    //@SqlQuery("SELECT quantity FROM inventory WHERE productId = :id")
-    public int getStockQuantityForProductId(@Bind("id") String product_id){
-        return 5;
-    }
+    @SqlQuery("SELECT amount FROM inventory WHERE product = :id")
+    public Integer getStockQuantityForProductId(@Bind("id") int productId);
 
-    //@SqlUpdate("UPDATE inventory SET quantity = (quantity - :stockQuantity), transactionId = :transactionId WHERE productId = :id")
-    public boolean decreaseStockQuantityForProductId(String product_id,  int stockQuantity, long transactionId){
-        return true;
-    }
-    public boolean decreaseStockQuantityForProductId(String product_id,  int stockQuantity){
-        return true;
-    }
+    @SqlUpdate("UPDATE inventory SET amount = (amount - :amountChanged) WHERE product = :productId")
+    public void decreaseStockQuantityForProductId(@Bind("productId") int productId, @Bind("amountChanged") int amountChanged);
 
-    //@SqlUpdate("UPDATE inventory SET quantity = (quantity + :stockQuantity), transactionId = :transactionId WHERE productId = :id")
-    public boolean increaseStockQuantityForProductId(String product_id,  int stockQuantity){
-        return true;
-    }
-    public double getBaseSalesPrice(String product_id){
-        return 59.99;
-    }
-    public double getProductCost(String product_id){
-        return 20.00;
-    }
-    
-    //Stub of API call to accounting
-    public long reportProcurement(String desc, double amount){
-        return (long)1234567890;
-    }
+    @SqlUpdate("UPDATE inventory SET amount = (amount + :amountChanged) WHERE product = :productId")
+    public void increaseStockQuantityForProductId(@Bind("productId") int productId, @Bind("amountChanged") int amountChanged);
+
+    @SqlQuery("SELECT base_price FROM inventory WHERE product = :id")
+    public Double getBasePriceForProductId(@Bind("id") int id);
+
+    @SqlQuery("SELECT base_cost FROM inventory WHERE product = :id")
+    public Double getBaseCostForProductId(@Bind("id") int id);
 
 }
