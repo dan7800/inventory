@@ -12,12 +12,16 @@ import javax.ws.rs.core.Response;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 @Path("/inventory")
 @Produces(MediaType.APPLICATION_JSON)
 public class InventoryManagementResource {
 
     private final ProductDao productDao;
     private final LoggingDao loggingDao;
+
+    HttpClient httpClient = HttpClients.createDefault();
+    HttpPost   httpPost = new HttpPost("http://vm343a.se.rit.edu/accounting/inventory");
 
     @Inject
     public InventoryManagementResource(ProductDao productDao, LoggingDao loggingDao) {
@@ -81,4 +85,17 @@ public class InventoryManagementResource {
         return productDao.getProducts();
     }
 
+    @POST
+    @Path("/purchase/{id}/{amount}")
+    public HttpResponse purchaseParts(@PathParam("id") int id,
+                                    @PathParam("amount") int increaseAmount
+                                    @QueryParam("transactionId") Integer transactionId){
+        productDao.increaseStockQuantityForProductId(id, increaseAmount);
+        loggingDao.insertLogging(transactionId, "Purchase", LocalDateTime.now(), id, increaseAmount);
+        double costOfGoods = productDao.getBaseCostForProductId(id) * amount;
+        InventoryRequest request = new InventoryRequest(costOfGoods, transactionId);
+        httpPost.setEntity(new URLEncodedFormEntity(request, "UTF-8"));
+        HttpResponse response = httpClient.execute(httpPost);
+        return response;
+    }
 }
