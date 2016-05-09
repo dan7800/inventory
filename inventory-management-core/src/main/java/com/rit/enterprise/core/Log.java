@@ -59,4 +59,5 @@ public class Log {
     public Integer getProductId() {
         return productId;
     }
+
 }

@@ -1,14 +1,19 @@
 package com.rit.enterprise.service;
 
 import com.google.inject.Inject;
+import com.rit.enterprise.core.Log;
+import com.rit.enterprise.core.Product;
 import com.rit.enterprise.data.LoggingDao;
 import com.rit.enterprise.data.ProductDao;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Path("/inventory")
+@Produces(MediaType.APPLICATION_JSON)
 public class InventoryManagementResource {
 
     private final ProductDao productDao;
@@ -64,6 +69,16 @@ public class InventoryManagementResource {
         return baseCost != null ? baseCost : -1;
     }
 
+    @GET
+    @Path("/logging")
+    public List<Log> getLogs() {
+        return loggingDao.getLogs();
+    }
 
+    @GET
+    @Path("/products")
+    public List<Product> getProducts() {
+        return productDao.getProducts();
+    }
 
 }

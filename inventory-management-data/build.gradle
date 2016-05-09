@@ -1,5 +1,7 @@
 dependencies {
     compile project(':inventory-management-config')
+    compile project(':inventory-management-core')
 
+    compile 'com.hubspot.rosetta:RosettaJdbi:3.10.10'
     compile group: 'io.dropwizard', name: 'dropwizard-jdbi', version: dropwizardVersion
 }

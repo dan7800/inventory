@@ -1,4 +1,5 @@
 dependencies {
     compile project(':inventory-management-config')
     compile project(':inventory-management-data')
+    compile project(':inventory-management-core')
 }

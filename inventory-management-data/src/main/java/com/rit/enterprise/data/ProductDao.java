@@ -1,9 +1,14 @@
 package com.rit.enterprise.data;
 
+import com.rit.enterprise.core.Product;
 import org.skife.jdbi.v2.sqlobject.Bind;
 import org.skife.jdbi.v2.sqlobject.SqlQuery;
 import org.skife.jdbi.v2.sqlobject.SqlUpdate;
+import org.skife.jdbi.v2.sqlobject.customizers.RegisterMapper;
 
+import java.util.List;
+
+@RegisterMapper(ProductMapper.class)
 public interface ProductDao {
 
     @SqlQuery("SELECT amount FROM inventory WHERE product = :id")
@@ -20,5 +25,8 @@ public interface ProductDao {
 
     @SqlQuery("SELECT base_cost FROM inventory WHERE product = :id")
     public Double getBaseCostForProductId(@Bind("id") int id);
+
+    @SqlQuery("SELECT * FROM inventory")
+    public List<Product> getProducts();
 
 }
