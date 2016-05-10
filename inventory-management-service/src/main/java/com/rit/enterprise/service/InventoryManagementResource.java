@@ -88,7 +88,7 @@ public class InventoryManagementResource {
     @POST
     @Path("/purchase/{id}/{amount}")
     public HttpResponse purchaseParts(@PathParam("id") int id,
-                                    @PathParam("amount") int increaseAmount
+                                    @PathParam("amount") int increaseAmount,
                                     @QueryParam("transactionId") Integer transactionId){
         productDao.increaseStockQuantityForProductId(id, increaseAmount);
         loggingDao.insertLogging(transactionId, "Purchase", LocalDateTime.now(), id, increaseAmount);
