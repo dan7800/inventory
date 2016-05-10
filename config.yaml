@@ -4,7 +4,7 @@ database:
 
   user: 'inventory'
 
-  password: ''
+  password: 'usethru1'
 
   # the JDBC URL
   url: 'jdbc:postgresql://localhost:5432/inventory'
@@ -27,3 +27,11 @@ database:
 
   # whether or not idle connections should be validated
   checkConnectionWhileIdle: false
+
+server:
+ applicationConnectors:
+ - type: http 
+   port: 8008
+ adminConnectors:
+ - type: http
+   port: 8055

@@ -20,8 +20,8 @@ public class InventoryManagementResource {
     private final ProductDao productDao;
     private final LoggingDao loggingDao;
 
-    HttpClient httpClient = HttpClients.createDefault();
-    HttpPost   httpPost = new HttpPost("http://vm343a.se.rit.edu/accounting/inventory");
+//    HttpClient httpClient = HttpClients.createDefault();
+//    HttpPost   httpPost = new HttpPost("http://vm343a.se.rit.edu/accounting/inventory");
 
     @Inject
     public InventoryManagementResource(ProductDao productDao, LoggingDao loggingDao) {
@@ -85,7 +85,7 @@ public class InventoryManagementResource {
         return productDao.getProducts();
     }
 
-    @POST
+/*    @POST
     @Path("/purchase/{id}/{amount}")
     public HttpResponse purchaseParts(@PathParam("id") int id,
                                     @PathParam("amount") int increaseAmount,
@@ -97,5 +97,5 @@ public class InventoryManagementResource {
         httpPost.setEntity(new URLEncodedFormEntity(request, "UTF-8"));
         HttpResponse response = httpClient.execute(httpPost);
         return response;
-    }
+    }*/
 }
